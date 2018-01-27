@@ -2,7 +2,7 @@
 	<footer id="Footer" class="footer">	
 		<div align="center"><hr class="line"></div>
 		<div class="footer-main">
-			<p class="footer_copyright"> © 2017 hotcode5</p>
+			<p class="footer_copyright"> © 2017-2018 hotcode5</p>
 			<p class="footer_link_container">
 				<a href="https://github.com/Slontia/iCourse/" target="_blank" class="footer_link">Github</a>
 				<a href="http://www.cnblogs.com/hotcode5/" target="_blank" class="footer_link">blog</a>
