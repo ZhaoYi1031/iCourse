@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'icourse',  # MySQL中Schema名字
         'USER':'root',
         'PASSWORD':'buaa@Icourse',  
-        'HOST':'127.0.0.1',  
+        'HOST':'60.205.211.127',  
         'PORT':'3306' 
          
         #'USER':'root',
