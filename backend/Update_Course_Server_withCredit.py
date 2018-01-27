@@ -21,7 +21,7 @@ dict = {'工程基础类': 1, '数学与自然科学类': 2, '语言类':3, '博
 print(dict['工程基础类'])
 
 #连接数据库
-conn = pymysql.connect(host='10.2.28.124',port=3306,user = 'root',passwd='Hotcode@1506',db='icourse',charset="utf8") #db：库名
+conn = pymysql.connect(host='60.205.211.127',port=3306,user = 'root',passwd='buaa@Icourse',db='icourse',charset="utf8") #db：库名
 
 d = {} # dict that stores values of course_code
 

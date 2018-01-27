@@ -446,7 +446,7 @@ def course_query(request):
         #data = json.loads(request.body.decode())
         query = str(data.get('keyword'))
         # print ('query: ' + query)
-        cs_url = 'http://10.2.28.124:8080/solr/mynode/select?'#q=Bill&wt=json&indent=true'
+        cs_url = 'http://60.205.211.127:8080/solr/mynode/select?'#q=Bill&wt=json&indent=true'
         param  = {'q':query, 'fl':'id,name,college_id,class_id,credit,hours,score', 'rows':1500, 'wt':'json', 'indent':'true'}
 
         r = requests.get(cs_url, params = param)
@@ -1985,7 +1985,7 @@ def user_like_course_namelist(request):
 #          such as {'college_id': 10, 'class_id': 55, 'name': '安卓', 'credit': 5, 'id': 9, 'hours': 10}
 #          the list is ordered by id temporaily (can be modified to revelance)
 @csrf_exempt
-def resource_query(request): #http://10.2.28.124:8080/solr/mynode2/select?q=%E6%95%B0%E6%8D%AE%E5%BA%93&fq=course_code%3AB3I08224C&rows=1000&wt=json&indent=true
+def resource_query(request): #http://60.205.211.127:8080/solr/mynode2/select?q=%E6%95%B0%E6%8D%AE%E5%BA%93&fq=course_code%3AB3I08224C&rows=1000&wt=json&indent=true
 #    print("UUUUUUUUU")
 #    query = request.GET['keyword']
 #    course_id = request.GET['course_id']
@@ -1997,7 +1997,7 @@ def resource_query(request): #http://10.2.28.124:8080/solr/mynode2/select?q=%E6%
         query = str(data.get('keyword'))
         course_id = str(data.get('course_id'))
 
-        cs_url = 'http://10.2.28.124:8080/solr/mynode2/select?'
+        cs_url = 'http://60.205.211.127:8080/solr/mynode2/select?'
         
         course = Course.objects.get(id=course_id)
         course_code = course.course_code

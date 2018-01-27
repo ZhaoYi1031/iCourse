@@ -28,7 +28,7 @@ print (str.replace("is", "was", 3));
 
 
 #连接数据库
-conn = pymysql.connect(host='10.2.28.124',port=3306,user = 'root',passwd='Hotcode@1506',db='icourse',charset="utf8") #db：库名
+conn = pymysql.connect(host='60.205.211.127',port=3306,user = 'root',passwd='buaa@Icourse',db='icourse',charset="utf8") #db：库名
 #创建游标
 cur = conn.cursor()
 #查询表中存在的数据

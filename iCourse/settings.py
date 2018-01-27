@@ -90,8 +90,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'icourse',  # MySQL中Schema名字
         'USER':'root',
-        'PASSWORD':'Hotcode@1506',  
-        'HOST':'10.2.28.124',  
+        'PASSWORD':'buaa@Icourse',  
+        'HOST':'127.0.0.1',  
         'PORT':'3306' 
          
         #'USER':'root',
