@@ -186,6 +186,7 @@
         <p style="text-align: left; margin-bottom: 20px;">发表你的看法</p>
       </el-col>
     </el-row>
+	<link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
     <el-row type="flex" justify="center" >
       <el-col :span="20" class="editor_container">
       <quill-editor v-model="editor.content" ref="quill" class="editor" :options="editor.option" @change="on_editor_change">
