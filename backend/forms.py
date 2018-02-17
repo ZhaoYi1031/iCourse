@@ -72,10 +72,10 @@ class ResourceUploadForm(forms.ModelForm):
         # 100MB - 104857600
         # 250MB - 214958080
         # 500MB - 429916160
-        MAX_UPLOAD_SIZE = "10485760"
+        MAX_UPLOAD_SIZE = "15728640"#"10485760" # modified by ohazyi from 10MB->15MB
         size = int(self.cleaned_data['size'])
         if(size > int(MAX_UPLOAD_SIZE)):
-            raise forms.ValidationError("文件不能超过10MB")
+            raise forms.ValidationError("文件不能超过#10MB")
         return size
 
 
