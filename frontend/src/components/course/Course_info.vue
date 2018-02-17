@@ -55,16 +55,6 @@
           <el-table-column prop="contribution_score" label="贡献度" align="center"></el-table-column>
         </el-table>
         </div>
-        <!--
-        <div class="month_contribution_table">
-        <p style="text-align: center; padding-bottom: 10px"> 近一个月贡献度排行 </p>
-        <el-table :data="latest_contribution_data" highlight-current-row style="width: auto;" height="300">
-          <el-table-column prop="contribution_username" label="用户名"></el-table-column>
-          <el-table-column prop="contribution_score" label="贡献度"></el-table-column>
-          <el-table-column prop="contribution_level" label="等级"></el-table-column>
-        </el-table>
-      </div>
-    -->
       </el-col>
     </el-row>
      <!-- course resource -->
@@ -245,7 +235,11 @@ export default {
         self.$store.state.course_code = info['course_code']
       },
       error: function () {
-        alert('fail')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取课程信息失败'
+        })
       }
     })
     post_url = get_url(this.$store.state.dev, '/course/visit_count/')
@@ -259,7 +253,11 @@ export default {
         self.visit_count = data['visit_count']
       },
       error: function () {
-        alert('点击次数链接异常')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取点击次数失败'
+        })
       }
     })
     post_url = get_url(this.$store.state.dev, '/course/like/count/')
@@ -274,18 +272,13 @@ export default {
         self.like_count = data['like_count']
       },
       error: function () {
-        alert('收藏量获取异常')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取收藏信息失败'
+        })
       }
     })
-    /*
-    // loading the contribution_list
-    $.ajax({
-      ContentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      url: get_url('')
-    })
-    */
-    // loading the resource
   },
   data () {
     return {
@@ -371,7 +364,11 @@ export default {
           }
         },
         error: function () {
-          alert('收藏异常')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '收藏异常'
+          })
         }
       })
     },
@@ -391,6 +388,7 @@ export default {
       formData.append('intro', this.resourceIntro)
       formData.append('course_code', this.$store.state.course_code)
       var post_url = get_url(this.$store.state.dev, '/resourceUpload/')
+      var _this = this
       $.ajax({
         url: post_url,
         type: 'POST',
@@ -402,13 +400,25 @@ export default {
         success: function (rdata) {
           rdata = JSON.parse(rdata)
           if (rdata['error'] === 0) {
-            alert('上传文件成功！')
+            _this.$message({
+              showClose: true,
+              type: 'success',
+              message: '上传成功！'
+            })
           } else {
-            alert('上传失败！' + rdata['error'])
+            _this.$message({
+              showClose: true,
+              type: 'error',
+              message: '上传失败！' + rdata['error']
+            })
           }
         },
         error: function () {
-          alert('fail')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '上传异常'
+          })
         }
       })
     },
@@ -458,7 +468,11 @@ export default {
               resourceDialogSelf.$store.state.author = data['user_info']['username']
             },
             error: function () {
-              alert('fail')
+              _this.$message({
+                showClose: true,
+                type: 'error',
+                message: '获取用户名失败'
+              })
             }
           })
           // resourceDialogSelf.$store.state.author = rdata['resource_info']['upload_user_id']
@@ -469,7 +483,11 @@ export default {
           resourceDialogSelf.dialogVisible = true
         },
         error: function () {
-          alert('拉取资源信息失败')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源信息失败'
+          })
         }
       })
     }
@@ -508,7 +526,11 @@ export default {
         }
       },
       error: function () {
-        alert('拉取最新资源列表失败')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '拉取最新资源列表失败'
+        })
       }
     })
     // hot resource
@@ -542,7 +564,11 @@ export default {
         }
       },
       error: function () {
-        alert('拉取热门资源列表失败')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '拉取热门资源列表失败'
+        })
       }
     })
     // course contribution
@@ -573,63 +599,6 @@ export default {
         })
       }
     })
-    /*
-    var post_url2 = get_url(this.$store.state.dev, '/resource/hot/')
-    var post_data2 = { course_id: this.$route.params.course_id, number: 6 }
-    $.ajax({
-      ContentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      url: post_url2,
-      type: 'POST',
-      data: post_data2,
-      success: function (data) {
-        var pos = 0
-        var info = data['result']
-        for (var i = 0; i < 3; i++) {
-          self.card_data[i][pos].title=info[i]['name']
-          self.card_data[i][pos].uploader=info[i]['username']
-          self.card_data[i][pos].frequency=info[i]['download_count']
-          self.card_data[i][pos].id = info[i]['resource_id']
-          self.card_data[i][pos].show = 'visible'
-          var name = info[i]['name'].toLowerCase()
-          for (var t in self.img) {
-            var temp = '.'+t+'$'
-            var reg = new RegExp(temp)
-            if (reg.test(name)) {
-              self.card_data[i][pos].img = self.img[t]
-              break
-            }
-          }
-        }
-        if (info.length > 3) {
-          pos = 1
-          for (i = 3; i < info.length; i++) {
-            self.card_data[i][pos].title=info[i]['name']
-            self.card_data[i][pos].uploader=info[i]['username']
-            self.card_data[i][pos].frequency=info[i]['download_count']
-            self.card_data[i][pos].id = info[i]['resource_id']
-            self.card_data[i][pos].show = 'visible'
-            var name1 = info[i]['name'].toLowerCase()
-            for (var t1 in self.img) {
-              var temp1 = '.'+t+'$'
-              var reg1 = new RegExp(temp1)
-              if (reg1.test(name1)) {
-                self.card_data[i][pos].img = self.img[t1]
-                break
-              }
-            }
-          }
-        }
-      },
-      error: function () {
-        self.$message({
-          showClose: true,
-          type: 'error',
-          message: '无法链接到服务器'
-        })
-      }
-    })
-    */
   }
 }
 </script>

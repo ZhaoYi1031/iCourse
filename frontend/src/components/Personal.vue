@@ -337,6 +337,7 @@ export default {
     this.username = this.$route.params.username
     var personalSelf = this
     var post_url = get_url(this.$store.state.dev, '/sign/logged_in/')
+    var _this = this
     $.ajax({
       ContentType: 'application/json; charset=utf-8',
       dataType: 'json',
@@ -347,7 +348,11 @@ export default {
         personalSelf.is_host = (personalSelf.username === data['username'])
       },
       error: function () {
-        alert('加载导航栏连接服务器失败')
+        _this.$message({
+          showClose: true,
+          type: 'error',
+          message: '加载导航栏连接服务器失败'
+        })
       }
     })
     post_url = get_url(this.$store.state.dev, '/user/information/')
@@ -386,7 +391,11 @@ export default {
         personalSelf.is_superuser = user_info['is_superuser']
       },
       error: function () {
-        alert('fail')
+        _this.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取个人信息失败'
+        })
       }
     })
   }

@@ -80,14 +80,6 @@ export default {
   data () {
     return {
       tree_data: [{
-        /* label: '课程类别',
-        children: [{ label: '一般通识课' },
-                   { label: '核心通识课' },
-                   { label: '核心专业课' },
-                   { label: '一般专业课' },
-                   { label: '公共必修课' },
-                   { label: '公共选修课' }]
-      }, */
         label: '我的收藏',
         isLeaf: true
       },
@@ -200,7 +192,11 @@ export default {
               }
             },
             error: function () {
-              alert('拉取信息失败!')
+              self.$message({
+                showClose: true,
+                type: 'error',
+                message: '拉取信息失败'
+              })
             }
           })
           self.handle_current_change(1)
@@ -211,47 +207,13 @@ export default {
             showClose: true,
             message: '课程类别暂未开放，敬请期待，当前可以使用搜索或者开设院系来查找课程~'
           })
-          /*
-          var temp2 = { 'class_id': '' }
-          switch (node.label) {
-            case ('一般通识课'):
-              temp2.class_id = '0'
-              break
-            case ('核心通识课'):
-              temp2.class_id = '1'
-              break
-            case ('核心专业课'):
-              temp2.class_id = '2'
-              break
-            case ('一般专业课'):
-              temp2.class_id = '3'
-              break
-            case ('公共必修课'):
-              temp2.class_id = '4'
-              break
-            case ('公共选修课'):
-              temp2.class_id = '5'
-              break
-            default:
-              temp2.class_id = '-1'
-          }
-          $.ajax({
-            ContentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            type: 'POST',
-            url: '/course/classification_course/',
-            data: temp2,
-            success: function (data) {
-              console.log('ok')
-            },
-            error: function () {
-              alert('错误')
-            }
-          })
-          */
         }
         else {
-          alert('结点不存在')
+          self.$message({
+            showClose: true,
+            type: 'error',
+            message: '结点不存在'
+          })
         }
       }
       else {
@@ -301,7 +263,11 @@ export default {
             }
           },
           error: function () {
-            alert('连接服务器异常')
+            self.$message({
+              showClose: true,
+              type: 'error',
+              message: '获取课程信息列表失败'
+            })
           }
         })
         self.handle_current_change(1)
@@ -339,7 +305,11 @@ export default {
           }
         },
         error: function () {
-          alert('拉取信息失败!')
+          self.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取课程信息列表失败'
+          })
         }
       })
       self.handle_current_change(1)

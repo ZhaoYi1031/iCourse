@@ -305,7 +305,11 @@ export default {
               resourceDialogSelf.$store.state.author = data['user_info']['username']
             },
             error: function () {
-              alert('fail')
+              _this.$message({
+                showClose: true,
+                type: 'error',
+                message: '获取用户名失败'
+              })
             }
           })
           // resourceDialogSelf.$store.state.author = rdata['resource_info']['upload_user_id']
@@ -316,7 +320,11 @@ export default {
           resourceDialogSelf.dialogVisible = true
         },
         error: function () {
-          alert('拉取资源信息失败')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源信息失败'
+          })
         }
       })
     },
@@ -377,7 +385,7 @@ export default {
           _this.$message({
             showClose: true,
             type: 'error',
-            message: '无法连接到服务器'
+            message: '获取热门帖子失败'
           })
         }
       })
@@ -426,7 +434,7 @@ export default {
           _this.$message({
             showClose: true,
             type: 'error',
-            message: '无法连接到服务器'
+            message: '获取最新帖子失败'
           })
         }
       })
@@ -458,7 +466,7 @@ export default {
           _this.$message({
             showClose: true,
             type: 'error',
-            message: '无法连接到服务器'
+            message: '获取最新资源失败'
           })
         }
       })
@@ -490,7 +498,7 @@ export default {
           _this.$message({
             showClose: true,
             type: 'error',
-            message: '无法连接到服务器'
+            message: '获取最热资源失败'
           })
         }
       })

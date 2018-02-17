@@ -114,7 +114,11 @@ export default {
         }
       },
       error: function () {
-        alert('加载导航栏连接服务器失败')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取登录状态失败'
+        })
       }
     })
     post_url = get_url(this.$store.state.dev, '/sign/iprecord/')
@@ -126,7 +130,11 @@ export default {
       success: function (data) {
       },
       error: function () {
-        alert('ip记录链接失败')
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: 'ip记录失败'
+        })
       }
     })
   },
@@ -350,7 +358,11 @@ export default {
           }
         },
         error: function () {
-          alert('登出连接服务器失败')
+          self.$message({
+            showClose: true,
+            type: 'error',
+            message: '登出异常'
+          })
         }
       })
     },

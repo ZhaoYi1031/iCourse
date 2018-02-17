@@ -15,6 +15,7 @@ export default {
     var post_data = {
       'code': code
     }
+    var _this = this
     $.ajax({
       ContentType: 'application/json; charset=utf-8',
       dataType: 'json',
@@ -27,7 +28,11 @@ export default {
         error = data['error']
       },
       error: function () {
-        alert('验证大失败')
+        _this.$message({
+          showClose: true,
+          type: 'error',
+          message: '验证失败'
+        })
       }
     })
     if (error === 0) {
@@ -45,7 +50,11 @@ export default {
         success: function () {
         },
         error: function () {
-          alert('登录失败')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '登录失败'
+          })
         }
       })
     }

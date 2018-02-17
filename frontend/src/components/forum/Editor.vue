@@ -66,14 +66,6 @@
             </el-alert>
           </el-col>
         </el-row>
-        <!--
-        <el-row type="flex"justify="center" style="padding-bottom: 20px;">
-          <el-col :span="20">
-            <el-alert title="请注意，超过帖子长度限制的文本会被截断。" type="info" close-text="了解了" show-icon>
-            </el-alert>
-          </el-col>
-        </el-row>
-      -->
         <el-row type="flex">
       <el-col :span="22">
         <el-button type="primary" @click="post_submit_button_clicked" class="submit_button" size="large">

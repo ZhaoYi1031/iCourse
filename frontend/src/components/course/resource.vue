@@ -317,7 +317,11 @@ export default {
           _this.updateResources()
         },
         error: function () {
-          alert('fail')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源失败'
+          })
         }
       })
     },
@@ -347,7 +351,11 @@ export default {
           _this.updateResources()
         },
         error: function () {
-          alert('fail')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源失败'
+          })
         }
       })
     },
@@ -380,7 +388,11 @@ export default {
             }
           },
           error: function () {
-            alert('fail')
+            _this.$message({
+              showClose: true,
+              type: 'error',
+              message: '获取资源失败'
+            })
           }
         })
       }
@@ -413,7 +425,11 @@ export default {
               resourceDialogSelf.$store.state.author = data['user_info']['username']
             },
             error: function () {
-              alert('fail')
+              _this.$message({
+                showClose: true,
+                type: 'error',
+                message: '获取用户名失败'
+              })
             }
           })
           // resourceDialogSelf.$store.state.author = rdata['user_info']['username']
@@ -425,7 +441,11 @@ export default {
           resourceDialogSelf.dialogVisible = true
         },
         error: function () {
-          alert('fail')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源信息失败'
+          })
         }
       })
     },
@@ -439,6 +459,7 @@ export default {
       formData.append('intro', this.resourceIntro)
       formData.append('course_code', this.$store.state.course_code)
       var post_url = get_url(this.$store.state.dev, '/resourceUpload/')
+      var _this = this
       $.ajax({
         url: post_url,
         type: 'POST',
@@ -450,13 +471,25 @@ export default {
         success: function (rdata) {
           rdata = JSON.parse(rdata)
           if (rdata['error'] === 0) {
-            alert('上传文件成功！')
+            _this.$message({
+              showClose: true,
+              type: 'success',
+              message: '上传成功！'
+            })
           } else {
-            alert('上传失败！' + rdata['error'])
+            _this.$message({
+              showClose: true,
+              type: 'error',
+              message: '上传失败！' + rdata['error']
+            })
           }
         },
         error: function () {
-          alert('fail')
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '上传异常'
+          })
         }
       })
     },
@@ -517,7 +550,11 @@ export default {
                 tt.author = data['user_info']['username']
               },
               error: function () {
-                alert('fail')
+                _this.$message({
+                  showClose: true,
+                  type: 'error',
+                  message: '获取用户名失败'
+                })
               }
             })
             tt.time = rdata['resource_info']['upload_time']
@@ -547,7 +584,11 @@ export default {
             ss.jumpHintVisible = false
           },
           error: function () {
-            alert('fail')
+            _this.$message({
+              showClose: true,
+              type: 'error',
+              message: '获取资源信息失败'
+            })
           }
         })
       }
@@ -578,6 +619,7 @@ export default {
         this.updateResources()
       }
     },
+    // 这个名字应该是getAllResource
     getAllCourses: function () {
       for (var type in this.selected) {
         this.selected[type] = false
@@ -602,7 +644,11 @@ export default {
           ss.updateResources()
         },
         error: function () {
-          alert('fail')
+          ss.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源失败'
+          })
         }
       })
     }
@@ -622,7 +668,11 @@ export default {
         ss.$store.state.course_code = data['course_info']['course_code']
       },
       error: function () {
-        alert('fail')
+        ss.$message({
+          showClose: true,
+          type: 'error',
+          message: '获取课程信息失败'
+        })
       }
     })
     this.getAllCourses()

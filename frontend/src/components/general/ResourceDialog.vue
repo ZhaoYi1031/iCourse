@@ -143,7 +143,11 @@ export default {
           sh.$store.state.id = data['download_count']
         },
         error: function () {
-          alert('拉取资源列表失败')
+          sh.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取下载次数失败'
+          })
         }
       })
     },
@@ -187,7 +191,7 @@ export default {
           _this.$message({
             showClose: true,
             type: 'error',
-            message: '无法连接到服务器'
+            message: '评分异常'
           })
         }
       })
@@ -241,7 +245,7 @@ export default {
         _this.$message({
           showClose: true,
           type: 'error',
-          message: '无法连接到服务器'
+          message: '获取资源评价失败'
         })
       }
     })
