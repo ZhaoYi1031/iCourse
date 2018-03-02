@@ -93,4 +93,8 @@ export default {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .footer_button{
+    padding: 0px 0px 0px 0px;
+    font-size: 16px;
+  }
 </style>
