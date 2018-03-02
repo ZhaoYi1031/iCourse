@@ -60,6 +60,11 @@
           </el-rate>
             </el-col>
           </el-row>
+          <el-row style="margin:15px 0px 0px 0px;">
+            <el-checkbox v-model="copyright_checked">
+              我已阅读并同意遵守<el-button type="text" @click="copyright_button_clicked">《版权声明》</el-button>中的条款
+            </el-checkbox>
+          </el-row>
         </el-col>
         <el-col :span="7">
           <el-row style="text-align:center;">
@@ -73,6 +78,14 @@
       <el-row style="margin:10px 0px 0px 0px;">
         
       </el-row>
+  <el-dialog title="版权说明" :visible.sync="copyright_visible" size="large">
+      <CopyrightDialog></CopyrightDialog>
+      <div slot="footer">
+        <center>
+    <el-button type="primary" @click="copyright_visible=false">确 定</el-button>
+  </center>
+  </div>
+    </el-dialog>
       <!--
       <el-row style="margin:10px 0px 0px 0px;">
         <el-col :span="1" :offset="1"><i class="el-icon-star-off"></i></el-col>
@@ -109,9 +122,11 @@ import ZipImg from './../../assets/fileico/zip.png'
 import RarImg from './../../assets/fileico/rar.png'
 import $ from 'jquery'
 import get_url from './getUrl.js'
+import CopyrightDialog from './CopyrightDialog'
 
 export default {
   name: 'ResourceDialog',
+  components: { CopyrightDialog },
   data () {
     return {
       zipImg: ZipImg,
@@ -125,11 +140,21 @@ export default {
       rate: 0,
       public_rate: '',
       rate_disable: true,
-      rate_count: ''
+      rate_count: '',
+      copyright_checked: false,
+      copyright_visible: false
     }
   },
   methods: {
     gotoDownload: function () {
+      if (!this.copyright_checked) {
+        this.$message({
+          showClose: true,
+          type: 'error',
+          message: '必须同意版权声明才能下载'
+        })
+        return
+      }
       var sh = this
       var post_url = get_url(this.$store.state.dev, '/resource/download_count/')
       window.open(this.$store.state.url)
@@ -195,6 +220,9 @@ export default {
           })
         }
       })
+    },
+    copyright_button_clicked: function () {
+      this.copyright_visible = true
     }
   },
   created: function () {
