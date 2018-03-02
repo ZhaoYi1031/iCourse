@@ -31,6 +31,7 @@ class Resource(models.Model):
     url = models.CharField(blank=True, max_length=1000)
     course_code = models.CharField(blank=True, max_length=10)
     download_count = models.IntegerField(default=0)
+    category = models.IntegerField(blank=False, default=0)
 
     def __str__(self):
         return str(self.id)
