@@ -51,7 +51,7 @@ class LoginForm(forms.Form):
 class ResourceUploadForm(forms.ModelForm):
     class Meta:
         model =  Resource
-        fields =  ['name', 'size', 'upload_user_id','course_code']
+        fields =  ['name', 'size', 'upload_user_id','course_code', 'category']
 
     def clean_name(self):
         count = 0

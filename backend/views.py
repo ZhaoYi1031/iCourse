@@ -524,6 +524,8 @@ def resourceUpload(request):
         #course_id = int(data.get('course_id'))
         course_code = str(data.get('course_code'))
         only_url = str(data.get('only_url'))     # only_url = True 表示只上传了一个链接,该链接应当保存在resource的url字段,link字段应该为None
+        category = int(data.get('category')) #add by ohazyi 2018/3/2
+        
         if(only_url == 'True' or only_url == 'true'):
             only_url = True
         elif(only_url == 'False' or only_url == 'false'):
@@ -544,6 +546,8 @@ def resourceUpload(request):
                 resource_up.url = url
                 resource_up.course_code = course_code
                 resource_up.upload_user_id = upload_user_id
+                resource_up.category = category
+                
                 resource_up.save()
                 return HttpResponse(json.dumps({'error':0}))
             else:
@@ -562,6 +566,8 @@ def resourceUpload(request):
                 resource_up.intro = intro
                 resource_up.course_code = course_code
                 resource_up.upload_user_id = upload_user_id
+                resource_up.category = category
+                
                 resource_up.save()
                 handle_upload_resource(request.FILES['file'], resource_up.link.url)
                 return HttpResponse(json.dumps({'error':0}))
@@ -629,7 +635,9 @@ def latest_resource_info(request):
         # data = json.loads(request.POST)
         course_id = int(request.POST.get('course_id'))
         number = int(request.POST.get('number'))
-        result = interface.resource_information_list(course_id, number)
+        category = int(data.get('category'))
+        
+        result = interface.resource_information_list(course_id, number, category)
         return HttpResponse(json.dumps({'result': result}))
 
 # Repost Interface
@@ -1606,7 +1614,14 @@ def most_download_resource_of_course(request):
         course_id = int(data.get('course_id'))
         number = str(data.get('number'))
         course_code = Course.objects.get(id=course_id).course_code
-        result = Resource.objects.filter(course_code=course_code).order_by('-download_count').values_list('id',flat=True)
+#        result = Resource.objects.filter(course_code=course_code).order_by('-download_count').values_list('id',flat=True)
+        category = int(data.get('category')) #add by ohazyi in 2018/3/2
+    
+        if (category > 0): #add by ohazyi in 2018/3/2
+            result = Resource.objects.filter(course_code=course_code, category=category).order_by('-download_count') #add by ohazyi in 2018/3/2
+        else: #add by ohazyi in 2018/3/2
+            result = Resource.objects.filter(course_code=course_code).order_by('-download_count')
+    
         count = 0
         id_list = []
         for item in result:
@@ -1626,7 +1641,13 @@ def most_download_resource_of_course_info(request):
         course_id = int(data.get('course_id'))
         number = int(data.get('number'))
         course_code = Course.objects.get(id=course_id).course_code
-        result = Resource.objects.filter(course_code=course_code).order_by('-download_count')
+        category = int(data.get('category')) #add by ohazyi in 2018/3/2
+        
+        if (category > 0): #add by ohazyi in 2018/3/2 #如果是往年考题(category=1)或者学习笔记/经验(category=2)那么的话展示的时候就只能是该部分
+            result = Resource.objects.filter(course_code=course_code, category=category).order_by('-download_count') #add by ohazyi in 2018/3/2
+        else: #add by ohazyi in 2018/3/2
+            result = Resource.objects.filter(course_code=course_code).order_by('-download_count')
+        
         count = 0
         info_list = []
         for item in result:
@@ -1926,6 +1947,7 @@ def latest_upload_resource_list(request):
         
         number = int(data.get('number')) #int(request.GET["number"])
         college_id = int(data.get('college_id')) #int(request.GET["college_id"])
+#        category = int(data.get('category')) #add by ohazyi 2018/3/2
 
         t1 = time.clock()
 
