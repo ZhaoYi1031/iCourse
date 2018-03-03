@@ -14,7 +14,7 @@
       <p class="footer_qq">QQ群: 639199158</p>
     </div>
     </div>
-    <el-dialog title="版权说明" :visible.sync="copyright_visible">
+    <el-dialog title="版权说明" :visible.sync="copyright_visible" class="dialog">
       <CopyrightDialog></CopyrightDialog>
       <div slot="footer">
         <center>
@@ -22,7 +22,7 @@
   </center>
   </div>
     </el-dialog>
-    <el-dialog title="免责声明" :visible.sync="discla_visible">
+    <el-dialog title="免责声明" :visible.sync="discla_visible" class="dialog">
       <DisclaDialog></DisclaDialog>
       <div slot="footer">
         <center>
@@ -96,5 +96,8 @@ export default {
   .footer_button{
     padding: 0px 0px 0px 0px;
     font-size: 16px;
+  }
+  .dialog{
+    text-align: left;
   }
 </style>

@@ -34,6 +34,18 @@
     <el-row>
       <el-col :span="4" :offset="2">
       <p class="label">
+        版权说明:
+      </p>
+      </el-col>
+      <el-col :span="18">
+        <el-checkbox v-model="copyright_checked">
+              我已阅读并同意遵守<el-button type="text" @click="copyright_button_clicked">《版权声明》</el-button>中的条款
+        </el-checkbox>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4" :offset="2">
+      <p class="label">
         标题
       </p>
     </el-col>
@@ -73,6 +85,14 @@
         </el-button>
       </el-col>
     </el-row>
+    <el-dialog title="版权说明" :visible.sync="copyright_visible">
+      <CopyrightDialog></CopyrightDialog>
+      <div slot="footer">
+        <center>
+    <el-button type="primary" @click="copyright_visible=false">确 定</el-button>
+  </center>
+  </div>
+    </el-dialog>
   </div>
 </template>
 <script type="text/javascript">
@@ -82,9 +102,10 @@
 import Header from '../general/Header'
 import $ from 'jquery'
 import get_url from '../general/getUrl.js'
+import CopyrightDialog from '../general/CopyrightDialog.vue'
 export default {
   name: 'Editor',
-  components: { Header },
+  components: { Header, CopyrightDialog },
   data () {
     return {
       editor: {
@@ -101,12 +122,24 @@ export default {
       overflow: false,
       loading_text: '发布成功，正在跳转',
       course_name: '',
-      text: ''
+      text: '',
+      copyright_checked: true,
+      copyright_visible: false
     }
   },
   methods: {
+    copyright_button_clicked: function () {
+      this.copyright_visible = true
+    },
     post_submit_button_clicked: function () {
-      if (!this.$store.state.is_login) {
+      if (!this.copyright_checked) {
+        this.$message({
+          showClose: true,
+          message: '必须同意版权声明才能发贴',
+          type: 'error'
+        })
+      }
+      else if (!this.$store.state.is_login) {
         this.$message({
           showClose: true,
           message: '请先登录',

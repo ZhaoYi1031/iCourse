@@ -78,7 +78,7 @@
       <el-row style="margin:10px 0px 0px 0px;">
         
       </el-row>
-  <el-dialog title="版权说明" :visible.sync="copyright_visible" size="large">
+  <el-dialog title="版权说明" :visible.sync="copyright_visible">
       <CopyrightDialog></CopyrightDialog>
       <div slot="footer">
         <center>
@@ -141,7 +141,7 @@ export default {
       public_rate: '',
       rate_disable: true,
       rate_count: '',
-      copyright_checked: false,
+      copyright_checked: true,
       copyright_visible: false
     }
   },

@@ -166,10 +166,22 @@
       </el-row>
     </template>
     </div>
-  <el-dialog title="上传资源" :visible.sync="uploadDialogVisible" size="tiny">
+  <el-dialog title="上传资源" :visible.sync="uploadDialogVisible">
       <el-form label-position="left">
         <el-form-item type="text" label="资源介绍" :label-width="form_label_width">
           <el-input v-model="resourceIntro" auto_complete="off" placeholder="请输入资源介绍"></el-input>
+        </el-form-item>
+        <el-form-item label="资源类型" :label-width="form_label_width">
+          <el-radio-group v-model="resource_category">
+            <el-radio :label="0">课程资料</el-radio>
+            <el-radio :label="1">往年考题</el-radio>
+            <el-radio :label="2">笔记/经验</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="copyright_checked">
+              我已阅读并同意遵守<el-button type="text" @click="copyright_button_clicked">《版权声明》</el-button>中的条款
+          </el-checkbox>
         </el-form-item>
         <el-form-item :label-width="form_label_width">
           <input type="file" value="" id="file">
@@ -179,6 +191,16 @@
         <el-button @click="uploadDialogVisible=false">取 消</el-button>
         <el-button type="primary" @click.native="upload">上 传</el-button>
       </span>      
+    </el-dialog>
+
+  <!-- 版权说明 -->
+    <el-dialog title="版权说明" :visible.sync="copyright_visible">
+      <CopyrightDialog></CopyrightDialog>
+      <div slot="footer">
+        <center>
+    <el-button type="primary" @click="copyright_visible=false">确 定</el-button>
+  </center>
+  </div>
     </el-dialog>
 
   <!-- 资源具体信息dialog -->
@@ -208,10 +230,11 @@ import $ from 'jquery'
 // 请不要删除和get_url相关的行，如果你真的需要请告诉我下原因。by xindetai
 import get_url from '../general/getUrl.js'
 import college_map from '../general/collegeMap.js'
+import CopyrightDialog from '../general/CopyrightDialog.vue'
 
 export default {
   name: 'course_info',
-  components: { Header, ResourceDialog },
+  components: { Header, ResourceDialog, CopyrightDialog },
   beforeCreate () {
     var self = this
     var course_id = this.$route.params.course_id
@@ -317,10 +340,16 @@ export default {
         docx: DocImg,
         jpg: JpgImg,
         rar: RarImg
-      }
+      },
+      resource_category: 0,
+      copyright_checked: true,
+      copyright_visible: false
     }
   },
   methods: {
+    copyright_button_clicked: function () {
+      this.copyright_visible = true
+    },
     course_like: function () {
       var post_url = ''
       var post_data = { course_id: this.course_id }
@@ -379,6 +408,15 @@ export default {
       this.$router.push({ path: '/course/' })
     },
     upload: function () {
+      if (!this.copyright_checked) {
+        this.$message({
+          showClose: true,
+          type: 'error',
+          message: '必须同意版权声明'
+        })
+        return
+      }
+
       var formData = new FormData()
       var fileObj = document.getElementById('file').files[0]
       formData.append('file', fileObj)
