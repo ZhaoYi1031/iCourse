@@ -635,8 +635,13 @@ def latest_resource_info(request):
         # data = json.loads(request.POST)
         course_id = int(request.POST.get('course_id'))
         number = int(request.POST.get('number'))
-        category = int(data.get('category'))
-        
+#        category = int(data.get('category'))
+        category = 0 #add by ohazyi in 2018/3/3
+        if 'category' in request.POST: #add by ohazyi in 2018/3/3
+            category = int(data.get('category')) #add by ohazyi in 2018/3/2
+        else:
+            print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    
         result = interface.resource_information_list(course_id, number, category)
         return HttpResponse(json.dumps({'result': result}))
 
@@ -1614,8 +1619,9 @@ def most_download_resource_of_course(request):
         course_id = int(data.get('course_id'))
         number = str(data.get('number'))
         course_code = Course.objects.get(id=course_id).course_code
-#        result = Resource.objects.filter(course_code=course_code).order_by('-download_count').values_list('id',flat=True)
         category = int(data.get('category')) #add by ohazyi in 2018/3/2
+        
+#        result = Resource.objects.filter(course_code=course_code).order_by('-download_count').values_list('id',flat=True)
     
         if (category > 0): #add by ohazyi in 2018/3/2
             result = Resource.objects.filter(course_code=course_code, category=category).order_by('-download_count') #add by ohazyi in 2018/3/2
@@ -1641,7 +1647,12 @@ def most_download_resource_of_course_info(request):
         course_id = int(data.get('course_id'))
         number = int(data.get('number'))
         course_code = Course.objects.get(id=course_id).course_code
-        category = int(data.get('category')) #add by ohazyi in 2018/3/2
+#        category = int(data.get('category')) #add by ohazyi in 2018/3/2
+        category = 0 #add by ohazyi in 2018/3/3
+        if 'category' in data: #add by ohazyi in 2018/3/3
+            category = int(data.get('category')) #add by ohazyi in 2018/3/2
+        else:
+            print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
         
         if (category > 0): #add by ohazyi in 2018/3/2 #如果是往年考题(category=1)或者学习笔记/经验(category=2)那么的话展示的时候就只能是该部分
             result = Resource.objects.filter(course_code=course_code, category=category).order_by('-download_count') #add by ohazyi in 2018/3/2
