@@ -165,6 +165,91 @@
 
       </el-row>
     </template>
+    <el-row class="course_resource_head" style="margin-bottom: 20px;margin-top: 50px;">
+      <el-col :span="8">
+        <p style="text-align: left;padding-bottom: 20px;font-size: large">往年考题</p>
+      </el-col>
+    </el-row>
+    <template v-for="(i,index) in total_resource_line">
+            <el-row>
+                <el-col :span="7" v-bind:style="{visibility:card_data2[index][0].show}">
+                  <el-col :span="24">
+                    <el-tooltip effect="dark" :content="card_data2[index][0].title" placement="top">
+                  <el-button type="text" class="card_button" @click.native="card2_clicked(index,0)">
+                    <el-row>
+                      <el-col :span="4" style="">
+                        <img :src="card_data2[index][0].img" style="width: 50px; height:50px;"></img>
+                      </el-col>
+                      <el-col :span="19" :offset="1">
+                        <el-row >
+                          <p class="card_title_text">{{card_data2[index][0].title}}</p>
+                        <p class="card_text">
+                          上传者:{{card_data2[index][0].uploader}}
+                        </p>
+                        <p class="card_text">
+                          下载量:{{card_data2[index][0].frequency}}
+                        </p>
+                      </el-row>
+                      </el-col>
+                    </el-row>
+                </el-button>
+              </el-tooltip>
+              <hr style="border: none;border-top: 1px solid rgb(241,242,244)"/>
+                </el-col>
+                </el-col>
+
+                <el-col :span="7" :offset="1" v-bind:style="{visibility:card_data2[index][1].show}">
+                  <el-col :span="24">
+                  <el-tooltip effect="dark" :content="card_data2[index][1].title" placement="top">
+                  <el-button type="text" class="card_button" @click.native="card2_clicked(index,1)">
+                    <el-row>
+                      <el-col :span="4" style="">
+                        <img :src="card_data2[index][1].img" style="width: 50px; height:50px;"></img>
+                      </el-col>
+                      <el-col :span="19" :offset="1">
+                        <el-row >
+                          <p class="card_title_text">{{card_data2[index][1].title}}</p>
+                        <p class="card_text">
+                          上传者:{{card_data2[index][1].uploader}}
+                        </p>
+                        <p class="card_text">
+                          下载量:{{card_data2[index][1].frequency}}
+                        </p>
+                      </el-row>
+                      </el-col>
+                    </el-row>
+                </el-button>
+              </el-tooltip>
+              <hr style="border: none;border-top: 1px solid rgb(241,242,244)"/>
+                </el-col>
+                </el-col>
+                <el-col :span="7" :offset="1" v-bind:style="{visibility:card_data2[index][2].show}">
+                  <el-tooltip effect="dark" :content="card_data2[index][2].title" placement="top">
+                  <el-button type="text" class="card_button" @click.native="card2_clicked(index,2)">
+                  
+                    <el-row>
+                      <el-col :span="4">
+                        <img :src="card_data2[index][2].img" style="width: 50px; height:50px;"></img>
+                      </el-col>
+                      <el-col :span="19" :offset="1">
+                        <el-row >
+                          <p class="card_title_text">{{card_data2[index][2].title}}</p>
+                        <p class="card_text">
+                          上传者:{{card_data2[index][2].uploader}}
+                        </p>
+                        <p class="card_text">
+                          下载量:{{card_data2[index][2].frequency}}
+                        </p>
+                      </el-row>
+                      </el-col>
+                    </el-row>
+                </el-button>
+              </el-tooltip>
+              <hr style="border: none;border-top: 1px solid rgb(241,242,244)"/>
+                </el-col>
+
+      </el-row>
+    </template>
     </div>
   <el-dialog title="上传资源" :visible.sync="uploadDialogVisible">
       <el-form label-position="left">
@@ -183,7 +268,7 @@
               我已阅读并同意遵守<el-button type="text" @click="copyright_button_clicked">《版权声明》</el-button>中的条款
           </el-checkbox>
         </el-form-item>
-        <el-form-item :label-width="form_label_width">
+        <el-form-item>
           <input type="file" value="" id="file">
         </el-form-item>     
       </el-form>  
@@ -332,6 +417,17 @@ export default {
          { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
          { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' }]
       ],
+      card_data2: [
+        [{ title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' }],
+        [{ title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' }],
+        [{ title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' },
+         { title: '', uploader: '', frequency: '', show: 'hidden', id: '', img: '' }]
+      ],
       img: { zip: ZipImg,
         pdf: PdfImg,
         ppt: PptImg,
@@ -416,7 +512,6 @@ export default {
         })
         return
       }
-
       var formData = new FormData()
       var fileObj = document.getElementById('file').files[0]
       formData.append('file', fileObj)
@@ -425,6 +520,7 @@ export default {
       formData.append('url', null)
       formData.append('intro', this.resourceIntro)
       formData.append('course_code', this.$store.state.course_code)
+      formData.append('category', this.resource_category)
       var post_url = get_url(this.$store.state.dev, '/resourceUpload/')
       var _this = this
       $.ajax({
@@ -528,13 +624,61 @@ export default {
           })
         }
       })
+    },
+    card2_clicked (i, j) {
+      this.$store.state.id = this.card_data2[i][j].id
+      var resourceDialogSelf = this
+      var post_url = get_url(this.$store.state.dev, '/resource/information/')
+      var _this = this
+      $.ajax({
+        ContentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        url: post_url,
+        type: 'POST',
+        async: false,
+        data: {'resource_id': resourceDialogSelf.card_data2[i][j].id},
+        success: function (rdata) {
+          resourceDialogSelf.$store.state.name = rdata['resource_info']['name']
+          post_url = get_url(_this.$store.state.dev, '/user/information/')
+          $.ajax({
+            url: post_url,
+            type: 'POST',
+            data: {id: rdata['resource_info']['upload_user_id']},
+            async: false,
+            success: function (data) {
+              data = JSON.parse(data)
+              resourceDialogSelf.$store.state.author = data['user_info']['username']
+            },
+            error: function () {
+              _this.$message({
+                showClose: true,
+                type: 'error',
+                message: '获取用户名失败'
+              })
+            }
+          })
+          // resourceDialogSelf.$store.state.author = rdata['resource_info']['upload_user_id']
+          resourceDialogSelf.$store.state.size = rdata['resource_info']['size']
+          resourceDialogSelf.$store.state.time = rdata['resource_info']['upload_time']
+          resourceDialogSelf.$store.state.intro = rdata['resource_info']['intro']
+          resourceDialogSelf.$store.state.url = rdata['resource_info']['url']
+          resourceDialogSelf.dialogVisible = true
+        },
+        error: function () {
+          _this.$message({
+            showClose: true,
+            type: 'error',
+            message: '获取资源信息失败'
+          })
+        }
+      })
     }
   },
   mounted () {
     var course_id = this.$route.params.course_id
 
     // latest resource
-    var post_data = { 'course_id': course_id, 'number': this.total_resource_line }
+    var post_data = { 'course_id': course_id, 'number': this.total_resource_line, 'category': 0 }
     var self = this
     var post_url = get_url(this.$store.state.dev, '/resource/latest/')
     $.ajax({
@@ -572,7 +716,7 @@ export default {
       }
     })
     // hot resource
-    post_data = { 'course_id': course_id, 'number': this.total_resource_line*2 }
+    post_data = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 0 }
     post_url = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
     $.ajax({
       ContentType: 'application/json; charset=utf-8',
@@ -606,6 +750,45 @@ export default {
           showClose: true,
           type: 'error',
           message: '拉取热门资源列表失败'
+        })
+      }
+    })
+    // test problem in last year
+    post_data = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 1 }
+    post_url = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
+    $.ajax({
+      ContentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      url: post_url,
+      type: 'POST',
+      data: post_data,
+      success: function (data) {
+        var info = data['info_list']
+        console.log(info)
+        for (var i = 0; i < info.length; i++) {
+          var col = Math.floor(i % 2)
+          var row = Math.floor(i / 2)
+          self.card_data2[row][col].title=info[i]['name']
+          self.card_data2[row][col].uploader=info[i]['username']
+          self.card_data2[row][col].frequency=info[i]['download_count']
+          self.card_data2[row][col].id = info[i]['resource_id']
+          self.card_data2[row][col].show = 'visible'
+          var name = info[i]['name'].toLowerCase()
+          for (var t in self.img) {
+            var temp = '.'+t+'$'
+            var reg = new RegExp(temp)
+            if (reg.test(name)) {
+              self.card_data2[row][col].img = self.img[t]
+              break
+            }
+          }
+        }
+      },
+      error: function () {
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '拉取往年考题列表失败'
         })
       }
     })

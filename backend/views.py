@@ -525,7 +525,6 @@ def resourceUpload(request):
         course_code = str(data.get('course_code'))
         only_url = str(data.get('only_url'))     # only_url = True 表示只上传了一个链接,该链接应当保存在resource的url字段,link字段应该为None
         category = int(data.get('category')) #add by ohazyi 2018/3/2
-        
         if(only_url == 'True' or only_url == 'true'):
             only_url = True
         elif(only_url == 'False' or only_url == 'false'):
@@ -556,7 +555,7 @@ def resourceUpload(request):
         else:
             name = str(request.FILES['file'].name)
             size = int(request.FILES['file'].size)
-            RUForm = ResourceUploadForm({'name':name, 'size':size, 'upload_user_id':upload_user_id, 'course_id':course_code})
+            RUForm = ResourceUploadForm({'name':name, 'size':size, 'upload_user_id':upload_user_id, 'course_id':course_code, 'category':category})
             if(RUForm.is_valid()):
                 resource_up = Resource()
                 resource_up.only_url = False
@@ -567,7 +566,6 @@ def resourceUpload(request):
                 resource_up.course_code = course_code
                 resource_up.upload_user_id = upload_user_id
                 resource_up.category = category
-                
                 resource_up.save()
                 handle_upload_resource(request.FILES['file'], resource_up.link.url)
                 return HttpResponse(json.dumps({'error':0}))
@@ -629,6 +627,7 @@ def download(request, resource_id): # 2 parameters
 
 
 # Latest Resource Information list
+# 2018.3.5 modified by xdt
 @csrf_exempt
 def latest_resource_info(request):
     if(request.method == 'POST'):
@@ -638,7 +637,7 @@ def latest_resource_info(request):
 #        category = int(data.get('category'))
         category = 0 #add by ohazyi in 2018/3/3
         if 'category' in request.POST: #add by ohazyi in 2018/3/3
-            category = int(data.get('category')) #add by ohazyi in 2018/3/2
+            category = int(request.POST.get('category')) #add by ohazyi in 2018/3/2
         else:
             print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
     
