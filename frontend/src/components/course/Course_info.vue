@@ -79,7 +79,7 @@
       </el-row>
         <el-row class = "resource_container" >
           <el-col :span="16" class="hot_resource_container">
-              <p style="text-align: left;padding-bottom: 20px;font-size: large"> 热门资源 </p>
+              <p style="text-align: left;padding-bottom: 10px;font-size: large"> 热门资源 </p>
           </el-col>
             <el-col :span="8" class= "latest_resource_container" :offset="14">
               <p style="padding-bottom: 10px; font-size: large">最新资源</p>
@@ -165,11 +165,14 @@
 
       </el-row>
     </template>
-    <el-row class="course_resource_head" style="margin-bottom: 20px;margin-top: 50px;">
-      <el-col :span="8">
-        <p style="text-align: left;padding-bottom: 20px;font-size: large">往年考题</p>
-      </el-col>
-    </el-row>
+    <el-row class = "resource_container" style="margin-top: 40px;">
+          <el-col :span="16" class="hot_resource_container">
+              <p style="text-align: left;padding-bottom: 10px;font-size: large"> 往年考题 </p>
+          </el-col>
+            <el-col :span="8" class= "latest_resource_container" :offset="14">
+              <p style="padding-bottom: 10px; font-size: large">最近上传的考题</p>
+          </el-col>
+        </el-row>
     <template v-for="(i,index) in total_resource_line">
             <el-row>
                 <el-col :span="7" v-bind:style="{visibility:card_data2[index][0].show}">
@@ -715,15 +718,52 @@ export default {
         })
       }
     })
-    // hot resource
-    post_data = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 0 }
-    post_url = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
+    // test paper latest
+    var post_data3 = { 'course_id': course_id, 'number': this.total_resource_line, 'category': 1 }
+    var post_url3 = get_url(this.$store.state.dev, '/resource/latest/')
     $.ajax({
       ContentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      url: post_url,
+      url: post_url3,
       type: 'POST',
-      data: post_data,
+      data: post_data3,
+      success: function (data) {
+        var pos = 2 // pos of latest resource
+        var info = data['result']
+        for (var i = 0; i < info.length; i++) {
+          self.card_data2[i][pos].title=info[i]['name']
+          self.card_data2[i][pos].uploader=info[i]['username']
+          self.card_data2[i][pos].frequency=info[i]['download_count']
+          self.card_data2[i][pos].id = info[i]['resource_id']
+          self.card_data2[i][pos].show = 'visible'
+          var name = info[i]['name'].toLowerCase()
+          for (var t in self.img) {
+            var temp = '.'+t+'$'
+            var reg = new RegExp(temp)
+            if (reg.test(name)) {
+              self.card_data2[i][pos].img = self.img[t]
+              break
+            }
+          }
+        }
+      },
+      error: function () {
+        self.$message({
+          showClose: true,
+          type: 'error',
+          message: '拉取最新往年考题失败'
+        })
+      }
+    })
+    // hot resource
+    var post_data4 = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 0 }
+    var post_url4 = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
+    $.ajax({
+      ContentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      url: post_url4,
+      type: 'POST',
+      data: post_data4,
       success: function (data) {
         var info = data['info_list']
         for (var i = 0; i < info.length; i++) {
@@ -754,17 +794,16 @@ export default {
       }
     })
     // test problem in last year
-    post_data = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 1 }
-    post_url = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
+    var post_data2 = { 'course_id': course_id, 'number': this.total_resource_line*2, 'category': 1 }
+    var post_url2 = get_url(this.$store.state.dev, '/course/resource/download/most/info/')
     $.ajax({
       ContentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      url: post_url,
+      url: post_url2,
       type: 'POST',
-      data: post_data,
+      data: post_data2,
       success: function (data) {
         var info = data['info_list']
-        console.log(info)
         for (var i = 0; i < info.length; i++) {
           var col = Math.floor(i % 2)
           var row = Math.floor(i / 2)
